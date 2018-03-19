@@ -1,19 +1,19 @@
 package projetT;
 
 public class SignIn extends Action {
-    private String username;
-    private String password;
-    private String email;
+    private String nom_user;
+    private String mdp_user;
+    private String email_user;
 
     public String getUsername() {
-        return username;
+        return nom_user;
     }
 
     public String getPassword() {
-        return password;
+        return mdp_user;
     }
 
     public String getEmail()  {
-        return email;
+        return email_user;
     }
 }

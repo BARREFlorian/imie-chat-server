@@ -29,9 +29,8 @@ public class Main{
 
     private Main() throws IOException, SQLException, DeploymentException {
 
-        /*DriverManager.registerDriver(new Driver());
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projett?serverTimezone=UTC", "root", "");
-        */
+        //DriverManager.registerDriver(new Driver());
+        //Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projett?serverTimezone=UTC", "root", "");
         WebSocketServer<String> webSocketServer = WebSocketServer.get("localhost", 8083, String.class);
         webSocketServer.addListener((OpenWebSocketListener<String>) idSession -> System.out.println(" Ouvert sur " + idSession));
 
@@ -45,11 +44,24 @@ public class Main{
                     System.out.println(message + " de " + idSession);
                     SignIn signIn = MAPPER.readValue(message, SignIn.class);
                     System.out.println(signIn.getUsername());
+                    System.out.println(signIn.getPassword());
+                    System.out.println(signIn.getEmail());
+
+                }
+                else if(action.getType().compareTo("create") == 0){
+                    System.out.println(message + " de " + idSession);
+                    Create create = MAPPER.readValue(message, Create.class);
+                    System.out.println(create.getChanel());
+                    System.out.println(create.getUsername());
+                }
+                else if(action.getType().compareTo("join") == 0){
+                    System.out.println(message + " de " + idSession);
+                    Join join = MAPPER.readValue(message, Join.class);
+                    System.out.println(join.getChanel());
+                    System.out.println(join.getUsername());
                 }
                 webSocketServer.send(idSession, MAPPER.writeValueAsString(action));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SessionNotFoundException e) {
+            } catch (IOException | SessionNotFoundException e) {
                 e.printStackTrace();
             }
         });

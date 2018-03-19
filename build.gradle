@@ -14,8 +14,10 @@ repositories {
 
 dependencies {
     compile name: "chat-websocket-server-specification-0.1.0"
+    compile name: "mysql-connector-java-6.0.6"
 }
 
 run{
     mainClassName = 'projetT.Main'
-    standardInput = System.in}
+    standardInput = System.in
+}

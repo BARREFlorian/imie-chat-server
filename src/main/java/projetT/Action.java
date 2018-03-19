@@ -1,7 +1,9 @@
 package projetT;
 
-import java.util.Date;
+public class Action {
+    private String type;
 
-public abstract class Action {
-    Date date = new Date();
+    public String getType() {
+        return type;
+    }
 }

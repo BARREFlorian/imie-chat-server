@@ -1,10 +1,17 @@
 package projetT;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.cj.jdbc.Driver;
 import fr.imie.chat.specification.WebSocketServer;
+import fr.imie.chat.specification.exceptions.SessionNotFoundException;
 import fr.imie.chat.specification.listeners.CloseWebSocketListener;
 import fr.imie.chat.specification.listeners.MessageWebSocketListener;
 import fr.imie.chat.specification.listeners.OpenWebSocketListener;
+
+import javax.websocket.DeploymentException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,23 +19,41 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static java.sql.DriverManager.println;
-
 public class Main{
-public static void main(String [] args) throws IOException, SQLException {
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.ANY)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    public static void main(String [] args) throws IOException, SQLException, DeploymentException {
         new Main();
     }
 
-    private Main() throws IOException, SQLException {
+    private Main() throws IOException, SQLException, DeploymentException {
 
-        DriverManager.registerDriver(new Driver());
+        /*DriverManager.registerDriver(new Driver());
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projett?serverTimezone=UTC", "root", "");
-        WebSocketServer<String> webSocketServer = WebSocketServer.get("localhost", 8080, String.class);
-        webSocketServer.addListener((OpenWebSocketListener<String>) idSession -> println(" Ouvert sur " + idSession));
+        */
+        WebSocketServer<String> webSocketServer = WebSocketServer.get("localhost", 8083, String.class);
+        webSocketServer.addListener((OpenWebSocketListener<String>) idSession -> System.out.println(" Ouvert sur " + idSession));
 
-        webSocketServer.addListener((CloseWebSocketListener<String>) idSession -> println(" Fermer sur " + idSession));
+        webSocketServer.addListener((CloseWebSocketListener<String>) idSession -> System.out.println(" Fermer sur " + idSession));
 
-        webSocketServer.addListener((MessageWebSocketListener<String>) (message, idSession) -> println(message + " de " + idSession));
+        webSocketServer.addListener((MessageWebSocketListener<String>) (idSession, message) -> {
+            try {
+                Action action = MAPPER.readValue(message, Action.class);
+
+                if (action.getType().compareTo("inscription") == 0) {
+                    System.out.println(message + " de " + idSession);
+                    SignIn signIn = MAPPER.readValue(message, SignIn.class);
+                    System.out.println(signIn.getUsername());
+                }
+                webSocketServer.send(idSession, MAPPER.writeValueAsString(action));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SessionNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+        webSocketServer.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(" Si tu veux arrêter le serveur appuie sur une touche ;) ");
         reader.readLine();

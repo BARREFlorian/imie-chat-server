@@ -55,6 +55,23 @@ public class Main{
                     Disconnect disconnect = MAPPER.readValue(message, Disconnect.class);
 
                 }
+                else if(action.getType().compareTo("create") == 0){
+                    Create create = MAPPER.readValue(message, Create.class);
+                    System.out.println(create.getNomchanel());
+                    System.out.println(create.getUsername());
+                }
+                else if(action.getType().compareTo("delete") == 0 ){
+                    Delete delete = MAPPER.readValue(message, Delete.class);
+                    System.out.println(delete.getNomchanel());
+                    System.out.println(delete.getUsername());
+                }
+                else if(action.getType().compareTo("send") == 0){
+                    Send send = MAPPER.readValue(message, Send.class);
+                    System.out.println(send.getNomchanel());
+                    System.out.println(send.getUsername());
+                    System.out.println(send.getContenuemessage());
+                    System.out.println(send.getDatePublimessage());
+                }
                 webSocketServer.send(idSession, MAPPER.writeValueAsString(action));
             } catch (IOException | SessionNotFoundException e) {
                 e.printStackTrace();

@@ -10,7 +10,6 @@ import fr.imie.chat.specification.exceptions.SessionNotFoundException;
 import fr.imie.chat.specification.listeners.CloseWebSocketListener;
 import fr.imie.chat.specification.listeners.MessageWebSocketListener;
 import fr.imie.chat.specification.listeners.OpenWebSocketListener;
-
 import javax.websocket.DeploymentException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,25 +39,21 @@ public class Main{
             try {
                 Action action = MAPPER.readValue(message, Action.class);
 
-                if (action.getType().compareTo("inscription") == 0) {
-                    System.out.println(message + " de " + idSession);
+                if (action.getType().compareTo("singin") == 0) {
                     SignIn signIn = MAPPER.readValue(message, SignIn.class);
                     System.out.println(signIn.getUsername());
                     System.out.println(signIn.getPassword());
                     System.out.println(signIn.getEmail());
 
                 }
-                else if(action.getType().compareTo("create") == 0){
-                    System.out.println(message + " de " + idSession);
-                    Create create = MAPPER.readValue(message, Create.class);
-                    System.out.println(create.getChanel());
-                    System.out.println(create.getUsername());
+                else if(action.getType().compareTo("connect") == 0){
+                    LogIn logIn = MAPPER.readValue(message, LogIn.class);
+                    System.out.println(logIn.getUsername());
+                    System.out.println(logIn.getPassword());
                 }
-                else if(action.getType().compareTo("join") == 0){
-                    System.out.println(message + " de " + idSession);
-                    Join join = MAPPER.readValue(message, Join.class);
-                    System.out.println(join.getChanel());
-                    System.out.println(join.getUsername());
+                else if(action.getType().compareTo("disconnect") == 0){
+                    Disconnect disconnect = MAPPER.readValue(message, Disconnect.class);
+
                 }
                 webSocketServer.send(idSession, MAPPER.writeValueAsString(action));
             } catch (IOException | SessionNotFoundException e) {

@@ -76,7 +76,7 @@ public class Main{
         });
         webSocketServer.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(" Si tu veux arrêter le serveur appuie sur une touche ;) ");
+        System.out.println(" Si tu veux arreter le serveur appuie sur une touche ;) ");
         reader.readLine();
     }
 }

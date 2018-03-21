@@ -1,5 +1,6 @@
 package projetT;
 
-public class Deconnexion extends Action {
+
+public class Deconnexion extends Action{
 
 }

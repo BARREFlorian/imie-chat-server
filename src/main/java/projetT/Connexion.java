@@ -1,14 +1,14 @@
 package projetT;
 
-public class Connexion extends Action {
-    private String nom_user;
-    private String mdp_user;
+public class Connexion extends Action{
+    private String userName;
+    private String userPassword;
 
-    public String getUsername() {
-        return nom_user;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getPassword() {
-        return mdp_user;
+    public String getUserPassword() {
+        return userPassword;
     }
 }

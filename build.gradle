@@ -18,6 +18,6 @@ dependencies {
 }
 
 run{
-    mainClassName = 'projetT.Main'9
+    mainClassName = 'projetT.Main'
     standardInput = System.in
 }

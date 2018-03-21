@@ -39,7 +39,7 @@ public class Main{
             try {
                 Action action = MAPPER.readValue(message, Action.class);
 
-                if (action.getType().compareTo("singin") == 0) {
+                if (action.getType().compareTo("signin") == 0) {
                     SignIn signIn = MAPPER.readValue(message, SignIn.class);
                     System.out.println(signIn.getUsername());
                     System.out.println(signIn.getPassword());

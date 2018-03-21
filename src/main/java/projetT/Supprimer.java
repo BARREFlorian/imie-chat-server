@@ -1,6 +1,6 @@
 package projetT;
 
-public class Create extends Action{
+public class Supprimer extends Action {
     private String nom_channel;
     private String nom_user;
 

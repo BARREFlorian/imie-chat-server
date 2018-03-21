@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.jdbc.Driver;
 import fr.imie.chat.specification.WebSocketServer;
 import fr.imie.chat.specification.exceptions.SessionNotFoundException;
 import fr.imie.chat.specification.listeners.CloseWebSocketListener;
@@ -14,8 +13,6 @@ import javax.websocket.DeploymentException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Main{
@@ -39,38 +36,38 @@ public class Main{
             try {
                 Action action = MAPPER.readValue(message, Action.class);
 
-                if (action.getType().compareTo("signin") == 0) {
-                    SignIn signIn = MAPPER.readValue(message, SignIn.class);
-                    System.out.println(signIn.getUsername());
-                    System.out.println(signIn.getPassword());
-                    System.out.println(signIn.getEmail());
+                if (action.getType().compareTo("inscription") == 0) {
+                    Inscription inscription = MAPPER.readValue(message, Inscription.class);
+                    System.out.println(inscription.getUsername());
+                    System.out.println(inscription.getPassword());
+                    System.out.println(inscription.getEmail());
 
                 }
-                else if(action.getType().compareTo("connect") == 0){
-                    LogIn logIn = MAPPER.readValue(message, LogIn.class);
-                    System.out.println(logIn.getUsername());
-                    System.out.println(logIn.getPassword());
+                else if(action.getType().compareTo("connexion") == 0){
+                    Connexion connexion = MAPPER.readValue(message, Connexion.class);
+                    System.out.println(connexion.getUsername());
+                    System.out.println(connexion.getPassword());
                 }
-                else if(action.getType().compareTo("disconnect") == 0){
-                    Disconnect disconnect = MAPPER.readValue(message, Disconnect.class);
+                else if(action.getType().compareTo("deconnexion") == 0){
+                    Deconnexion deconnexion = MAPPER.readValue(message, Deconnexion.class);
 
                 }
-                else if(action.getType().compareTo("create") == 0){
-                    Create create = MAPPER.readValue(message, Create.class);
-                    System.out.println(create.getNomchanel());
-                    System.out.println(create.getUsername());
+                else if(action.getType().compareTo("creer") == 0){
+                    Creer creer = MAPPER.readValue(message, Creer.class);
+                    System.out.println(creer.getNomchanel());
+                    System.out.println(creer.getUsername());
                 }
-                else if(action.getType().compareTo("delete") == 0 ){
-                    Delete delete = MAPPER.readValue(message, Delete.class);
-                    System.out.println(delete.getNomchanel());
-                    System.out.println(delete.getUsername());
+                else if(action.getType().compareTo("supprimer") == 0 ){
+                    Supprimer supprimer = MAPPER.readValue(message, Supprimer.class);
+                    System.out.println(supprimer.getNomchanel());
+                    System.out.println(supprimer.getUsername());
                 }
-                else if(action.getType().compareTo("send") == 0){
-                    Send send = MAPPER.readValue(message, Send.class);
-                    System.out.println(send.getNomchanel());
-                    System.out.println(send.getUsername());
-                    System.out.println(send.getContenuemessage());
-                    System.out.println(send.getDatePublimessage());
+                else if(action.getType().compareTo("envoyer") == 0){
+                    Envoyer envoyer = MAPPER.readValue(message, Envoyer.class);
+                    System.out.println(envoyer.getNomchanel());
+                    System.out.println(envoyer.getUsername());
+                    System.out.println(envoyer.getContenuemessage());
+                    System.out.println(envoyer.getDatePublimessage());
                 }
                 webSocketServer.send(idSession, MAPPER.writeValueAsString(action));
             } catch (IOException | SessionNotFoundException e) {

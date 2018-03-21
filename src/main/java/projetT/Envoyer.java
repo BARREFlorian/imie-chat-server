@@ -1,6 +1,6 @@
 package projetT;
 
-public class Send extends Action {
+public class Envoyer extends Action {
     private String nom_user;
     private String contenue_message;
     private String datePubli_message;

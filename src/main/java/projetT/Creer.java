@@ -1,6 +1,6 @@
 package projetT;
 
-public class Delete extends Action {
+public class Creer extends Action{
     private String nom_channel;
     private String nom_user;
 

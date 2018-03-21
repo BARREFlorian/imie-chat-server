@@ -1,8 +1,9 @@
 package projetT;
 
-public class LogIn extends Action {
+public class Inscription extends Action {
     private String nom_user;
     private String mdp_user;
+    private String email_user;
 
     public String getUsername() {
         return nom_user;
@@ -10,5 +11,9 @@ public class LogIn extends Action {
 
     public String getPassword() {
         return mdp_user;
+    }
+
+    public String getEmail()  {
+        return email_user;
     }
 }

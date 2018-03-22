@@ -103,6 +103,9 @@ public class Main{
                                 users.setApiKey(apiKey);
                                 users.setUserId(id);
                                 users.setUserName(Utilisateur);
+
+                                int result = statement.executeUpdate("UPDATE users SET apiKey='"+apiKey+"' WHERE nom_user='" + connexionUser.getUserName() + "' AND mdp_user='" + connexionUser.getUserPassword() + "';");
+
                                 String retour =  MAPPER.writeValueAsString(users);;
                                 try {
                                     webSocketServer.send(sessionId, retour);

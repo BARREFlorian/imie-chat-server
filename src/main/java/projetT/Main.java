@@ -69,16 +69,25 @@ public class Main{
                     if (action.getType().compareTo("connexion") == 0) {
                         System.out.println(message + " de " + sessionId);
                         Connexion connexionUser = MAPPER.readValue(message, Connexion.class);
-
+                        System.out.println(connexionUser.getUserName());
+                        System.out.println(connexionUser.getUserPassword());
 
                         try {
                             Statement statement = connexion.createStatement();
                             ResultSet resultat = statement.executeQuery("SELECT nom_user,mdp_user FROM users WHERE nom_user = '"+connexionUser.getUserName()+"' AND mdp_user = '"+connexionUser.getUserPassword()+"'");
-                            System.out.println("Utilisateur connecter");
-                            System.out.println(connexionUser.getUserName());
-                            System.out.println(connexionUser.getUserPassword());
-                            System.out.println(resultat);
+                            while (resultat.next()){
+                                String Utilisateur = resultat.getString("nom_user");
+                                String MDP = resultat.getString("mdp_user");
 
+                                if (connexionUser.getUserName()== Utilisateur && connexionUser.getUserPassword() == MDP){
+                                    System.out.println("Utilisateur connecter");
+                                    System.out.println(resultat);
+
+                                }
+                                else{
+                                    System.out.println("Erreur de saisie, veuillez recommencer!");
+                                }
+                            }
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

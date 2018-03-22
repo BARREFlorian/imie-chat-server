@@ -91,6 +91,21 @@ public class Main{
                         }
                     }
 
+                    if (action.getType().compareTo("message") == 0) {
+                        System.out.println(message + " de " + sessionId);
+                        Message messagePV = MAPPER.readValue(message, Message.class);
+                        try {
+                            Statement statement = connexion.createStatement();
+                            int statut = statement.executeUpdate("INSERT INTO message (contenue_message, datePubli_message, nom_user) VALUES ('" + messagePV.getMessageContenu() + "', '" + messagePV.getDatePubliMessage() + "','" + messagePV.getUserName() + "');");
+                            System.out.println("message envoyer");
+                            System.out.println(messagePV.getUserName());
+                            System.out.println(messagePV.getMessageContenu());
+                            System.out.println(messagePV.getDatePubliMessage());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
 

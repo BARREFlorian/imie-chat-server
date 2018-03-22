@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.imie.chat.specification.WebSocketServer;
+import fr.imie.chat.specification.exceptions.SessionNotFoundException;
 import fr.imie.chat.specification.listeners.CloseWebSocketListener;
 import fr.imie.chat.specification.listeners.MessageWebSocketListener;
 import fr.imie.chat.specification.listeners.OpenWebSocketListener;
@@ -12,6 +13,8 @@ import javax.websocket.DeploymentException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,16 +80,37 @@ public class Main{
                             while (resultat.next()){
 
                                 String Utilisateur = resultat.getString("nom_user");
-                                String MDP = resultat.getString("mdp_user");
-                                String Email = resultat.getString("email_user");
                                 Integer id = resultat.getInt("id_user");
 
                                     System.out.println("Utilisateur connecter");
                                     System.out.println(connexionUser.getUserName());
-                                    System.out.println(connexionUser.getUserPassword());
-                                    System.out.println(resultat);
+
+                                    StringBuffer apiKey = null;
+
+                                try {
+                                    try {
+                                        apiKey = RandomKeyGen.generate();
+                                    } catch (NoSuchProviderException e) {
+                                        e.printStackTrace();
+                                    }
+                                } catch (NoSuchAlgorithmException e) {
+                                    System.out.println("Exception caught");
+                                    e.printStackTrace();
+                                }
+                                System.out.println(apiKey);
+                                Users users = new Users();
+                                users.setType("user_connect");
+                                users.setApiKey(apiKey);
+                                users.setUserId(id);
+                                users.setUserName(Utilisateur);
+                                String retour =  MAPPER.writeValueAsString(users);;
+                                try {
+                                    webSocketServer.send(sessionId, retour);
+                                } catch (SessionNotFoundException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (SQLException e) {
+                            } catch (SQLException e) {
                             e.printStackTrace();
                         }
                     }

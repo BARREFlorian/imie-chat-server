@@ -1,14 +1,14 @@
 package projetT;
 
 public class Creer extends Action{
-    private String nom_channel;
-    private String nom_user;
+    private String channelName;
+    private String userName;
 
     public String getNomchanel() {
-        return nom_channel;
+        return channelName;
     }
 
     public String getUsername() {
-        return nom_user;
+        return userName;
     }
 }

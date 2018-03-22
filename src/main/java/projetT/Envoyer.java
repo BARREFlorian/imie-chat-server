@@ -1,24 +1,24 @@
 package projetT;
 
 public class Envoyer extends Action {
-    private String nom_user;
-    private String contenue_message;
-    private String datePubli_message;
-    private String nom_channel;
+    private String userName;
+    private String messageContent;
+    private String messagePubli;
+    private String channelName;
 
     public String getUsername() {
-        return nom_user;
+        return userName;
     }
 
     public String getContenuemessage() {
-        return contenue_message;
+        return messageContent;
     }
 
     public String getDatePublimessage() {
-        return datePubli_message;
+        return messagePubli;
     }
 
     public String getNomchanel() {
-        return nom_channel;
+        return channelName;
     }
 }

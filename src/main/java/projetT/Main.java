@@ -150,11 +150,24 @@ public class Main{
                         Creer creer = MAPPER.readValue(message, Creer.class);
                         try{
                             Statement statement = connexion.createStatement();
-                            int statut = statement.executeUpdate("INSERT INTO channel (nom_channel, nom_user) VALUES ('" + creer.getNomchannel() + "', '" + creer.getUsername() + "');");
+                            int statut = statement.executeUpdate("INSERT INTO channel (nom_channel, nom_user) VALUES ('" + creer.getChannelName() + "', '" + creer.getUserName() + "');");
                             System.out.println("channel créer!");
-                            System.out.println(creer.getNomchannel());
-                            System.out.println(creer.getUsername());
+                            System.out.println(creer.getChannelName());
+                            System.out.println(creer.getUserName());
                         }catch (SQLException e){
+                            e.printStackTrace();
+                        }
+                    }
+                    if (action.getType().compareTo("supprimer") == 0){
+                        System.out.println(message + " de " + sessionId);
+                        Supprimer supprimer = MAPPER.readValue(message, Supprimer.class);
+
+                        try{
+                            Statement statement = connexion.createStatement();
+                            int result = statement.executeUpdate("UPDATE channel SET nom_channel= DEFAULT WHERE nom_channel='" + supprimer.getChannelName() + "'");
+                            result = statement.executeUpdate("UPDATE channel SET nom_user= DEFAULT WHERE nom_user='" + supprimer.getUserName() + "'");
+                            System.out.println("Channel supprimé");
+                        }catch (SQLException e) {
                             e.printStackTrace();
                         }
                     }

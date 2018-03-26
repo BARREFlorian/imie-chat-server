@@ -118,6 +118,19 @@ public class Main{
                         }
                     }
 
+                    if (action.getType().compareTo("deconnexion") == 0){
+                        System.out.println(message + " de " + sessionId);
+                        Deconnexion deconnexion = MAPPER.readValue(message, Deconnexion.class);
+
+                        try{
+                            Statement statement = connexion.createStatement();
+                            int result = statement.executeUpdate("UPDATE users SET apiKey = DEFAULT WHERE apiKey='" + deconnexion.getApiKey() + "'");
+                            System.out.println("Utilisateur deconnecter");
+                        }catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     if (action.getType().compareTo("message") == 0) {
                         System.out.println(message + " de " + sessionId);
                         Message messagePV = MAPPER.readValue(message, Message.class);

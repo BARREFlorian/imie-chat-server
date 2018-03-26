@@ -16,4 +16,5 @@ public class Message extends Action {
     public String getDatePubliMessage() {
         return datePubliMessage;
     }
+
 }

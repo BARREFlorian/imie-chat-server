@@ -124,7 +124,7 @@ public class Main{
 
                         try{
                             Statement statement = connexion.createStatement();
-                            int result = statement.executeUpdate("UPDATE users SET apiKey = DEFAULT WHERE apiKey='" + deconnexion.getApiKey() + "'");
+                            int result = statement.executeUpdate("UPDATE users SET apiKey= DEFAULT WHERE apiKey='" + deconnexion.getApiKey() + "'");
                             System.out.println("Utilisateur deconnecter");
                         }catch (SQLException e) {
                             e.printStackTrace();

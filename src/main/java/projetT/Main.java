@@ -53,7 +53,7 @@ public class Main{
                 try {
                     Action action = MAPPER.readValue(message, Action.class);
 
-                    if (action.getType().compareTo("inscription") == 0) {
+                    if (action.getType().compareTo("insc0ription") == 0) {
                         System.out.println(message + " de " + sessionId);
                         Inscription inscription = MAPPER.readValue(message, Inscription.class);
                         System.out.println(inscription.getUserName());
@@ -142,6 +142,19 @@ public class Main{
                             System.out.println(messagePV.getMessageContenu());
                             System.out.println(messagePV.getDatePubliMessage());
                         } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (action.getType().compareTo("creer") == 0){
+                        System.out.println(message + " de " + sessionId);
+                        Creer creer = MAPPER.readValue(message, Creer.class);
+                        try{
+                            Statement statement = connexion.createStatement();
+                            int statut = statement.executeUpdate("INSERT INTO channel (nom_channel, nom_user) VALUES ('" + creer.getNomchannel() + "', '" + creer.getUsername() + "');");
+                            System.out.println("channel créer!");
+                            System.out.println(creer.getNomchannel());
+                            System.out.println(creer.getUsername());
+                        }catch (SQLException e){
                             e.printStackTrace();
                         }
                     }

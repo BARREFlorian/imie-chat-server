@@ -4,7 +4,7 @@ public class Creer extends Action{
     private String channelName;
     private String userName;
 
-    public String getNomchanel() {
+    public String getNomchannel() {
         return channelName;
     }
 

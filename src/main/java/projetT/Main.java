@@ -151,6 +151,7 @@ public class Main{
                         try{
                             Statement statement = connexion.createStatement();
                             int statut = statement.executeUpdate("INSERT INTO channel (nom_channel, nom_user) VALUES ('" + creer.getChannelName() + "', '" + creer.getUserName() + "');");
+                            statut = statement.executeUpdate("INSERT INTO createur_chanel (nom_channel, nom_user) VALUES ('" + creer.getChannelName() + "', '" + creer.getUserName() + "');");
                             System.out.println("channel créer!");
                             System.out.println(creer.getChannelName());
                             System.out.println(creer.getUserName());
@@ -166,6 +167,8 @@ public class Main{
                             Statement statement = connexion.createStatement();
                             int result = statement.executeUpdate("UPDATE channel SET nom_channel= DEFAULT WHERE nom_channel='" + supprimer.getChannelName() + "'");
                             result = statement.executeUpdate("UPDATE channel SET nom_user= DEFAULT WHERE nom_user='" + supprimer.getUserName() + "'");
+                            result = statement.executeUpdate("UPDATE createur_chanel SET nom_channel= DEFAULT WHERE nom_channel='" + supprimer.getChannelName() + "'");
+                            result = statement.executeUpdate("UPDATE createur_chanel SET nom_user= DEFAULT WHERE nom_user='" + supprimer.getUserName() + "'");
                             System.out.println("Channel supprimé");
                         }catch (SQLException e) {
                             e.printStackTrace();
